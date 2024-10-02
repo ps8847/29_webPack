@@ -1,0 +1,110 @@
+
+1) npm init -y 
+
+2) npm i webpack webpack-cli --save-dev
+
+3) now create aa file named  ,, webpack.config.js
+
+    module.exports = {
+        entry: "./app/index.js"   // entry point of the project
+    }
+
+
+// Loaders -> loaders are the things which do their things befotre compilation of the project 
+
+4)  now -> npm i svg-inline-loader --save-dev
+
+        // with this we are ready to use the svg files in our javascript code
+
+        module:{
+            rules : [
+                {
+                    test : /\.svg$/,
+                    loader : 'svg-inline-loader'
+                }
+            ]
+        }
+
+5) now -> npm install --save-dev css-loader style-loader
+
+        // with this we are ready to use styles and css in our project 
+
+         rules : [
+           ...
+            {
+                test: /\.css$/i,
+                use: ["style-loader" , "css-loader"]
+            }
+        ]
+
+6) now -> npm install --save-dev babel-loader  
+
+        // with this wee will be able to use all type of javascript into our application by supportying all kind of browsers 
+
+         rules : [
+            ...
+            {
+                test : /\.(js)$/,
+                use : 'babel-loader'
+            }
+        ]
+
+    it was all about loaders we can expore more things about it .... 
+
+// Plugins are things which does work after the compilation and used to inject the things in our project
+
+Now go for output :
+
+1) add the path of the output file 
+
+        const path = require("path")
+
+        module.exports = {
+            ...
+            output : {
+                path : path.resolve(__dirname , "dist"),
+                filename : "bundle.js"
+            }
+        }
+
+2) to load the all configurations otr our project and compile them in core structure like html or jsx or whatever 
+
+    npm install --save-dev html-webpack-plugin
+
+    const HtmlWebpackPlugin = require("html-webpack-plugin")
+
+    module.exports = {
+        ...
+        plugins: [new HtmlWebpackPlugin()]
+    }
+
+3) setup a auto loader / like nodemon for our project's core pack 
+
+    npm i webpack-dev-server --save-dev
+
+    (Nothing to do in the webpakc config file ,,, all needs to be done is in package.json file )
+
+4) set the mode 
+
+    module.exports = {
+        ...
+        mode: process.env.NODE_ENV === "production" ? "production" : "development"
+    }
+
+5) now steup the package.json file  -> 
+
+        >> npm install --save-dev cross-env
+
+
+    {
+        ...
+        "scripts": {
+            ...
+            "start": "webpack serve",
+            "build": "cross-env NODE_ENV=production webpack",
+        },
+       
+    }
+
+
+thats it  >> run it by "npm run start" and make the build verison of it by "npm run build"
